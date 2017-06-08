@@ -2,8 +2,8 @@ java_binary(
     name = "jarjar_runner",
     main_class = "org.pantsbuild.jarjar.Main",
     runtime_deps = [
-        "@org_pantsbuild_jarjar//jar",
-        "@org_ow2_asm_asm//jar",
-        "@org_ow2_asm_asm_commons//jar",
+        "//external:com_github_johnynek_bazel_jar_jar/jarjar",
+        "//external:com_github_johnynek_bazel_jar_jar/asm",
+        "//external:com_github_johnynek_bazel_jar_jar/asm_commons",
         ],
     visibility = ["//visibility:public"])
