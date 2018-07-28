@@ -7,6 +7,11 @@ def _jar_jar_impl(ctx):
     progress_message="jarjar %s" % ctx.label,
     arguments=["process", ctx.file.rules.path, ctx.file.input_jar.path, ctx.outputs.jar.path])
 
+  return JavaInfo(
+      output_jar = ctx.outputs.jar,
+      compile_jar = ctx.outputs.jar
+  )
+
 jar_jar = rule(
     implementation = _jar_jar_impl,
     attrs = {
@@ -16,7 +21,8 @@ jar_jar = rule(
     },
     outputs = {
       "jar": "%{name}.jar"
-    })
+    },
+    provides = [JavaInfo])
 
 def _mvn_name(coord):
   nocolon = "_".join(coord.split(":"))
