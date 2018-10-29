@@ -45,17 +45,17 @@ def _mvn_jar(coord, sha, bname, serv):
 
 def jar_jar_repositories(server=None):
   _mvn_jar(
-    "org.pantsbuild:jarjar:1.6.3",
-    "cf54d4b142f5409c394095181c8d308a81869622",
+    "org.pantsbuild:jarjar:1.7.2",
+    "8e258f158b4572d40598d7f4793cfbfe84a7cc70",
     "jarjar",
     server)
   _mvn_jar(
-    "org.ow2.asm:asm:5.0.4",
-    "0da08b8cce7bbf903602a25a3a163ae252435795",
+    "org.ow2.asm:asm:7.0",
+    "d74d4ba0dee443f68fb2dcb7fcdb945a2cd89912",
     "asm",
     server)
   _mvn_jar(
-    "org.ow2.asm:asm-commons:5.0.4",
-    "5a556786086c23cd689a0328f8519db93821c04c",
+    "org.ow2.asm:asm-commons:7.0",
+    "478006d07b7c561ae3a92ddc1829bca81ae0cdd1",
     "asm_commons",
     server)
