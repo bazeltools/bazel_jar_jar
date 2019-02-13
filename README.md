@@ -6,6 +6,25 @@ This rule uses [pantsbuild's jarjar fork](https://github.com/pantsbuild/jarjar).
 The main use case is to use more than one version of a jar at a time with different versions mapped to a different package. It can also be used to do [*dependency shading*](https://softwareengineering.stackexchange.com/questions/297276/what-is-a-shaded-java-dependency).
 
 
+## How to add to Bazel `WORKSPACE`
+
+```
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+
+git_repository(
+    name = "com_github_johnynek_bazel_jar_jar",
+    commit = "16e48f319048e090a2fe7fd39a794312d191fc6f", # Latest commit SHA as at 2019/02/13
+    remote = "git://github.com/johnynek/bazel_jar_jar.git",
+)
+
+load(
+    "@com_github_johnynek_bazel_jar_jar//:jar_jar.bzl",
+    "jar_jar_repositories",
+)
+jar_jar_repositories()
+```
+
+
 ## Usage
 
 _Note_: Example code exists in [`test/example`](/test/example)
