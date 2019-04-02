@@ -1,4 +1,9 @@
 
+load(
+  "@bazel_tools//tools/build_defs/repo:jvm.bzl",
+  "jvm_maven_import_external"
+)
+
 def _jar_jar_impl(ctx):
   ctx.action(
     inputs=[ctx.file.rules, ctx.file.input_jar],
@@ -33,29 +38,30 @@ def _mvn_name(coord):
   nodash = "_".join(nodot.split("-"))
   return nodash
 
-def _mvn_jar(coord, sha, bname, serv):
+def _mvn_jar(coord, sha, bname, servers):
   nm = _mvn_name(coord)
-  native.maven_jar(
-    name = nm,
-    artifact = coord,
-    sha1 = sha,
-    server = serv
+  jvm_maven_import_external(
+      name=nm,
+      artifact=coord,
+      server_urls=servers,
+      artifact_sha256=sha,
+      licenses = []
   )
   native.bind(name=("com_github_johnynek_bazel_jar_jar/%s" % bname), actual = "@%s//jar" % nm)
 
-def jar_jar_repositories(server=None):
+def jar_jar_repositories(servers=["https://repo1.maven.org/maven2"]):
   _mvn_jar(
     "org.pantsbuild:jarjar:1.7.2",
-    "8e258f158b4572d40598d7f4793cfbfe84a7cc70",
+    "0706a455e17b67718abe212e3a77688bbe8260852fc74e3e836d9f2e76d91c27",
     "jarjar",
-    server)
+    servers)
   _mvn_jar(
     "org.ow2.asm:asm:7.0",
-    "d74d4ba0dee443f68fb2dcb7fcdb945a2cd89912",
+    "b88ef66468b3c978ad0c97fd6e90979e56155b4ac69089ba7a44e9aa7ffe9acf",
     "asm",
-    server)
+    servers)
   _mvn_jar(
     "org.ow2.asm:asm-commons:7.0",
-    "478006d07b7c561ae3a92ddc1829bca81ae0cdd1",
+    "fed348ef05958e3e846a3ac074a12af5f7936ef3d21ce44a62c4fa08a771927d",
     "asm_commons",
-    server)
+    servers)
