@@ -23,8 +23,8 @@ def _jar_jar_impl(ctx):
 jar_jar = rule(
     implementation = _jar_jar_impl,
     attrs = {
-        "input_jar": attr.label(allow_files=True, allow_single_file=True),
-        "rules": attr.label(allow_files=True, allow_single_file=True),
+        "input_jar": attr.label(allow_single_file=True),
+        "rules": attr.label(allow_single_file=True),
         "_jarjar_runner": attr.label(executable=True, cfg="host", default=Label("@com_github_johnynek_bazel_jar_jar//:jarjar_runner")),
     },
     outputs = {
