@@ -5,7 +5,7 @@ load(
 )
 
 def _jar_jar_impl(ctx):
-  ctx.action(
+  ctx.actions.run(
     inputs=[ctx.file.rules, ctx.file.input_jar],
     outputs=[ctx.outputs.jar],
     executable=ctx.executable._jarjar_runner,
