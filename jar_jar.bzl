@@ -39,7 +39,7 @@ def _mvn_name(coord):
   return nodash
 
 def _mvn_jar(coord, sha, bname, servers):
-  nm = _mvn_name(coord)
+  nm = "jar_jar_" + _mvn_name(coord)
   jvm_maven_import_external(
       name=nm,
       artifact=coord,
