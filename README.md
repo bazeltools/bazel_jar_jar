@@ -14,7 +14,7 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 git_repository(
     name = "com_github_johnynek_bazel_jar_jar",
     commit = "16e48f319048e090a2fe7fd39a794312d191fc6f", # Latest commit SHA as at 2019/02/13
-    remote = "git://github.com/johnynek/bazel_jar_jar.git",
+    remote = "https://github.com/johnynek/bazel_jar_jar.git",
 )
 
 load(
