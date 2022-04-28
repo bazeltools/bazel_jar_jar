@@ -1,5 +1,8 @@
 workspace(name = "test")
 
+load("@bazel_tools//tools/build_defs/repo:jvm.bzl", "jvm_maven_import_external")
+
+
 local_repository(name = "com_github_johnynek_bazel_jar_jar",
                  path = "../")
 
@@ -9,10 +12,11 @@ load(
 )
 
 
-maven_jar(
+jvm_maven_import_external(
   name = "com_twitter_scalding_args",
   artifact = "com.twitter:scalding-args_2.9.3:0.12.0",
-  sha1 = "6709f963a10551f56868e625d11678514aa3c991",
+  server_urls = ["https://repo.maven.apache.org/maven2"],
+  artifact_sha256 = "2869f65981e57b34e25eb46e3dd2dda170ee7db7cdce04db3c7bf3d53c75084b",
 )
 
 jar_jar_repositories()
