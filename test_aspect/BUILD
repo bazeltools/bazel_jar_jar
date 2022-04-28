@@ -1,4 +1,3 @@
-
 load(
     "@com_github_johnynek_bazel_jar_jar//:jar_jar_toolchain.bzl",
     "jar_jar_toolchain",
@@ -16,4 +15,3 @@ jar_jar_toolchain(
     rules = "shade_rule",
     visibility = ["//visibility:public"],
 )
-

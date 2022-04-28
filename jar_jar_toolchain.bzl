@@ -8,7 +8,7 @@ def _jar_jar_toolchain_impl(ctx):
 jar_jar_toolchain = rule(
     _jar_jar_toolchain_impl,
     attrs = {
-        "rules": attr.label(allow_single_file=True),
-        "jar_jar_runner": attr.label(executable=True, cfg="host", default=Label("@com_github_johnynek_bazel_jar_jar//:jarjar_runner")),
+        "rules": attr.label(allow_single_file = True),
+        "jar_jar_runner": attr.label(executable = True, cfg = "host", default = Label("@com_github_johnynek_bazel_jar_jar//src/main/java/com/github/johnynek/jarjar:app")),
     },
 )
