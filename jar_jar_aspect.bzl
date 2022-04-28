@@ -53,7 +53,7 @@ def _jar_jar_aspect_impl(target, ctx):
     )
     return [
         merge_shaded_jars_info(
-            [d[ShadedJars] for d in ctx.rule.attr.deps] + [this_shaded]
+            [d[ShadedJars] for d in ctx.rule.attr.deps] + [d[ShadedJars] for d in ctx.rule.attr.runtime_deps] + [this_shaded]
         )
     ]
 
