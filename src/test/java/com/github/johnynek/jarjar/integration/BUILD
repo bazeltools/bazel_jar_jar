@@ -29,3 +29,11 @@ java_test(
     test_class = "com.github.johnynek.jarjar.integration.JavaVersionsTest",
     deps = [":base"],
 )
+
+java_test(
+    name = "DuplicateClassTest",
+    srcs = ["DuplicateClassTest.java"],
+    data = ["duplicate_class.jar"],
+    test_class = "com.github.johnynek.jarjar.integration.DuplicateClassTest",
+    deps = [":base"],
+)

@@ -31,7 +31,7 @@ public class BadPackagesTest extends IntegrationTestBase {
 
     List<String> entries = getJarEntries(jar);
     Assert.assertTrue(entries.contains("Misnamed.class"));
-    assertFalse(entries.contains("org/pantsbuild.jarjar/fake/Foobar.class"));
+    assertFalse(entries.contains("com/github/johnynek.jarjar/fake/Foobar.class"));
     assertTrue(entries.contains("README.md"));
   }
 
@@ -95,7 +95,7 @@ public class BadPackagesTest extends IntegrationTestBase {
 
     List<String> entries = getJarEntries(jar);
     assertFalse(entries.contains("Misnamed.class"));
-    Assert.assertTrue(entries.contains("org/pantsbuild/jarjar/fake/Foobar.class"));
+    Assert.assertTrue(entries.contains("com/github/johnynek/jarjar/fake/Foobar.class"));
     assertTrue(entries.contains("README.md"));
   }
 
@@ -110,7 +110,7 @@ public class BadPackagesTest extends IntegrationTestBase {
 
     List<String> entries = getJarEntries(jar);
     assertFalse(entries.contains("Misnamed.class"));
-    Assert.assertFalse(entries.contains("org/pantsbuild/jarjar/fake/Foobar.class"));
+    Assert.assertFalse(entries.contains("com/github/johnynek/jarjar/fake/Foobar.class"));
     assertTrue(entries.contains("README.md"));
   }
 
@@ -132,13 +132,13 @@ public class BadPackagesTest extends IntegrationTestBase {
 
     List<String> entries = getJarEntries(jar);
     Assert.assertTrue(entries.contains("Misnamed.class"));
-    assertFalse(entries.contains("org/pantsbuild.jarjar/fake/Foobar.class"));
+    assertFalse(entries.contains("com/github/johnynek.jarjar/fake/Foobar.class"));
     assertTrue(entries.contains("README.md"));
   }
 
   private File createJarWithMisnamedClass() throws Exception {
     Map<String, String> classes = new HashMap<String, String>();
-    classes.put("org.pantsbuild.jarjar.fake.Foobar", "Misnamed");
+    classes.put("com.github.johnynek.jarjar.fake.Foobar", "Misnamed");
     return createJarWithClasses(classes);
   }
 
@@ -201,7 +201,7 @@ public class BadPackagesTest extends IntegrationTestBase {
    * @throws IOException
    */
   private File createJarWithOldVersion() throws IOException {
-    String className = "org.pantsbuild.jarjar.fake.Foobar";
+    String className = "com.github.johnynek.jarjar.fake.Foobar";
     String basePath = className.replaceAll("[.]", "/");
     String sourcePath = basePath + ".java";
     String binaryPath = basePath + ".class";
@@ -236,9 +236,9 @@ public class BadPackagesTest extends IntegrationTestBase {
       File jar = createJarWithOldVersion();
       List<String> entries = getJarEntries(jar);
       Assert.assertTrue("Unshaded jar does not have new version of Foobar.",
-          entries.contains("org/pantsbuild/jarjar/fake/Foobar.class"));
+          entries.contains("com/github/johnynek/jarjar/fake/Foobar.class"));
       Assert.assertTrue("Unshaded jar does not have old version of Foobar.",
-          entries.contains("oldversion/org/pantsbuild/jarjar/fake/Foobar.class"));
+          entries.contains("oldversion/com/github/johnynek/jarjar/fake/Foobar.class"));
 
       File shadedJar = shadeJar(jar, new HashMap<String, String>() {{
         put("verbose", "true");
@@ -246,9 +246,9 @@ public class BadPackagesTest extends IntegrationTestBase {
       }}, null);
       entries = getJarEntries(shadedJar);
       Assert.assertTrue("Shaded jar does not have new version of Foobar.",
-          entries.contains("org/pantsbuild/jarjar/fake/Foobar.class"));
+          entries.contains("com/github/johnynek/jarjar/fake/Foobar.class"));
       Assert.assertTrue("Shaded jar does not have old version of Foobar.",
-          entries.contains("oldversion/org/pantsbuild/jarjar/fake/Foobar.class"));
+          entries.contains("oldversion/com/github/johnynek/jarjar/fake/Foobar.class"));
     } catch (AssertionFailedError e) {
       Assert.fail(e.getMessage());
     }

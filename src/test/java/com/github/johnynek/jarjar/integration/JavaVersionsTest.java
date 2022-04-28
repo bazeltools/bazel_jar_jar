@@ -35,25 +35,25 @@ public class JavaVersionsTest extends IntegrationTestBase {
     File jar = createJarWithSingleClass(version);
     List<String> entries = getJarEntries(jar);
     assertTrue("SingleClass didn't make it into unshaded jar.",
-        entries.contains("org/pantsbuild/jarjar/SingleClass.class"));
+        entries.contains("com/github/johnynek/jarjar/SingleClass.class"));
 
     File shaded = shadeJar(jar, null, null);
     entries = getJarEntries(shaded);
     assertTrue("SingleClass didn't make it into shaded jar (with no rules).",
-        entries.contains("org/pantsbuild/jarjar/SingleClass.class"));
+        entries.contains("com/github/johnynek/jarjar/SingleClass.class"));
 
     shaded = shadeJar(jar, null, new String[] {
-        "rule org.pantsbuild.jarjar.SingleClass org.pantsbuild.jarjar.ShadedClass"
+        "rule com.github.johnynek.jarjar.SingleClass com.github.johnynek.jarjar.ShadedClass"
     });
     entries = getJarEntries(shaded);
     assertTrue("ShadedClass didn't make it into shaded jar (with rename rule).",
-        entries.contains("org/pantsbuild/jarjar/ShadedClass.class"));
+        entries.contains("com/github/johnynek/jarjar/ShadedClass.class"));
 
     // TOOD write a test that demonstrates that KeepProcessor fails.
     // I can trigger the ASM exception, but that gets caught and logged
     shaded = shadeJar(jar, null, new String[] {
-         "rule org.pantsbuild.jarjar.SingleClass org.pantsbuild.jarjar.ShadedClass",
-         "keep org.pantsbuild.jarjar.**"
+         "rule com.github.johnynek.jarjar.SingleClass com.github.johnynek.jarjar.ShadedClass",
+         "keep com.github.johnynek.jarjar.**"
     });
     entries = getJarEntries(shaded);
 
@@ -61,7 +61,7 @@ public class JavaVersionsTest extends IntegrationTestBase {
 
 
   private File createJarWithSingleClass(String javaVersion) throws Exception {
-    String className = "org.pantsbuild.jarjar.SingleClass";
+    String className = "com.github.johnynek.jarjar.SingleClass";
     String basePath = className.replaceAll("[.]", "/");
     String sourcePath = basePath + ".java";
 
