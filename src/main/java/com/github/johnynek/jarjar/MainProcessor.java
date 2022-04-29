@@ -25,12 +25,13 @@ import java.util.*;
 class MainProcessor implements JarProcessor
 {
     private final boolean verbose;
+    private final boolean warnOnDuplicateClass;
     private final JarProcessorChain chain;
     private final KeepProcessor kp;
     private final Map<String, String> renames = new HashMap<String, String>();
 
-    public MainProcessor(List<PatternElement> patterns, boolean verbose, boolean skipManifest) {
-        this(patterns, verbose, skipManifest, null);
+    public MainProcessor(List<PatternElement> patterns, boolean verbose, boolean skipManifest, Boolean warnOnDuplicateClass) {
+        this(patterns, verbose, skipManifest, null, warnOnDuplicateClass);
     }
 
     /**
@@ -44,8 +45,9 @@ class MainProcessor implements JarProcessor
      * wrong package (see MisplacedClassProcessorFactory.STRATEGY_* constants).
      */
     public MainProcessor(List<PatternElement> patterns, boolean verbose, boolean skipManifest,
-                         String misplacedClassStrategy) {
+                         String misplacedClassStrategy, Boolean warnOnDuplicateClass) {
         this.verbose = verbose;
+        this.warnOnDuplicateClass = warnOnDuplicateClass;
         List<Zap> zapList = new ArrayList<Zap>();
         List<Rule> ruleList = new ArrayList<Rule>();
         List<Keep> keepList = new ArrayList<Keep>();
@@ -86,7 +88,7 @@ class MainProcessor implements JarProcessor
             return;
         Set<String> excludes = getExcludes();
         if (!excludes.isEmpty())
-            StandaloneJarProcessor.run(file, file, new ExcludeProcessor(excludes, verbose));
+            StandaloneJarProcessor.run(file, file, new ExcludeProcessor(excludes, verbose), warnOnDuplicateClass);
     }
 
     /**

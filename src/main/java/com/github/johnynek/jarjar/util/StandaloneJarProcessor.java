@@ -25,7 +25,7 @@ import java.util.*;
 
 public class StandaloneJarProcessor
 {
-    public static void run(File from, File to, JarProcessor proc) throws IOException {
+    public static void run(File from, File to, JarProcessor proc, Boolean warnOnDuplicateClass) throws IOException {
         byte[] buf = new byte[0x2000];
 
         JarFile in = new JarFile(from);
@@ -53,7 +53,11 @@ public class StandaloneJarProcessor
                     } else if (struct.name.endsWith("/")) {
                         // TODO(chrisn): log
                     } else {
-                        throw new DuplicateJarEntryException(from.getAbsolutePath(), struct.name);
+                        if(warnOnDuplicateClass) {
+                            System.err.println("In " + from.getAbsolutePath() + ", found duplicate files with name: " + struct.name + ", ignoring due to specified option");
+                        } else {
+                            throw new DuplicateJarEntryException(from.getAbsolutePath(), struct.name);
+                        }
                     }
                 }
             }

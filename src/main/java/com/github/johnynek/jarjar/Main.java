@@ -90,9 +90,10 @@ public class Main {
     List<PatternElement> rules = RulesFileParser.parse(rulesFile);
     boolean verbose = Boolean.getBoolean("verbose");
     boolean skipManifest = Boolean.getBoolean("skipManifest");
+    boolean warnOnDuplicateClass = Boolean.getBoolean("duplicateClassToWarn");
     MainProcessor proc = new MainProcessor(rules, verbose, skipManifest,
-        System.getProperty("misplacedClassStrategy"));
-    StandaloneJarProcessor.run(inJar, outJar, proc);
+        System.getProperty("misplacedClassStrategy"), warnOnDuplicateClass);
+    StandaloneJarProcessor.run(inJar, outJar, proc, warnOnDuplicateClass);
     proc.strip(outJar);
   }
 }
