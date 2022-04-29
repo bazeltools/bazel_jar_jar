@@ -20,14 +20,49 @@ def __get_no_ext_name(jar_path):
     else:
         return fname[:last_indx]
 
+def _build_nosrc_jar(ctx):
+    manifest_content = ctx.actions.declare_file("%s_manifest" % ctx.label.name)
+    ctx.actions.write(manifest_content, "Manifest-Version: 1.0")
+
+    resources = "META-INF/MANIFEST.MF=%s\n" % manifest_content.path
+    jar = ctx.actions.declare_file("%s_empty.jar" % ctx.label.name)
+
+    zipper_arg_path = ctx.actions.declare_file("%s_zipper_args" % ctx.label.name)
+    ctx.actions.write(zipper_arg_path, resources)
+    cmd = """
+rm -f {jar_output}
+{zipper} c {jar_output} @{path}
+"""
+
+    cmd = cmd.format(
+        path = zipper_arg_path.path,
+        jar_output = jar.path,
+        zipper = ctx.executable._zipper.path,
+    )
+
+    ctx.actions.run_shell(
+        inputs = [manifest_content],
+        tools = [ctx.executable._zipper, zipper_arg_path],
+        outputs = [jar],
+        command = cmd,
+        progress_message = "jar jar empty %s" % ctx.label,
+        arguments = [],
+    )
+    return jar
+
 def _jar_jar_aspect_impl(target, ctx):
     current_jars = target[JavaInfo].runtime_output_jars
     toolchain_cfg = ctx.toolchains["@com_github_johnynek_bazel_jar_jar//toolchains:toolchain_type"]
     rules = toolchain_cfg.rules.files.to_list()[0]
     duplicate_to_warn = toolchain_cfg.duplicate_class_to_warn
-    # if len(current_jars) == 0:
-    # print(ctx.rule.kind)
-    # print(ctx.rule)
+
+    # Since the JavaInfo constructor requires you have a jar
+    # if there is none, so a java library just exporting things maybe
+    # We then need to make an empty jar.
+    # This seems due to java_library being native in java and not having to obey having an output jar.
+    if len(current_jars) == 0:
+        current_jars = [_build_nosrc_jar(ctx)]
+
     java_outputs = []
     output_files = []
     for input_jar in current_jars:
@@ -79,7 +114,14 @@ jar_jar_aspect = aspect(
         "_java_toolchain": attr.label(
             default = Label("@bazel_tools//tools/jdk:current_java_toolchain"),
         ),
+        "_zipper": attr.label(
+            executable = True,
+            cfg = "host",
+            default = Label("@bazel_tools//tools/zip:zipper"),
+            allow_files = True,
+        )
     },
+
     toolchains = [
         "@com_github_johnynek_bazel_jar_jar//toolchains:toolchain_type",
     ],
