@@ -24,7 +24,7 @@ def _jar_jar_aspect_impl(target, ctx):
     current_jars = target[JavaInfo].runtime_output_jars
     toolchain_cfg = ctx.toolchains["@com_github_johnynek_bazel_jar_jar//toolchains:toolchain_type"]
     rules = toolchain_cfg.rules.files.to_list()[0]
-
+    duplicate_to_warn = toolchain_cfg.duplicate_class_to_warn
     # if len(current_jars) == 0:
     # print(ctx.rule.kind)
     # print(ctx.rule)
@@ -48,7 +48,7 @@ def _jar_jar_aspect_impl(target, ctx):
             outputs = [output_file],
             executable = toolchain_cfg.jar_jar_runner.files_to_run,
             progress_message = "thin jarjar %s" % ctx.label,
-            arguments = ["process", rules.path, input_jar.path, output_file.path],
+            arguments = ["--jvm_flag=-DduplicateClassToWarn={duplicate_to_warn}".format(duplicate_to_warn=duplicate_to_warn), "process", rules.path, input_jar.path, output_file.path],
         )
 
     # this_shaded =
