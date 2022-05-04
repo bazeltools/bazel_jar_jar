@@ -78,12 +78,23 @@ def _jar_jar_aspect_impl(target, ctx):
                 exports = [d[ShadedJars].java_info for d in ctx.rule.attr.exports],
             ),
         )
+        flags = []
+        if duplicate_to_warn:
+            flags.append("-DduplicateClassToWarn={duplicate_to_warn}".format(duplicate_to_warn=duplicate_to_warn))
+
+        args = ctx.actions.args()
+        for flag in flags:
+            if toolchain_cfg.jar_jar_is_native_image:
+                args.add(flag)
+            else:
+                args.add("--jvm_flag=%s" % flag)
+        args.add_all(["process", rules.path, input_jar.path, output_file.path])
         ctx.actions.run(
             inputs = [rules, input_jar],
             outputs = [output_file],
             executable = toolchain_cfg.jar_jar_runner.files_to_run,
             progress_message = "thin jarjar %s" % ctx.label,
-            arguments = ["--jvm_flag=-DduplicateClassToWarn={duplicate_to_warn}".format(duplicate_to_warn=duplicate_to_warn), "process", rules.path, input_jar.path, output_file.path],
+            arguments = [args],
         )
 
     # this_shaded =
