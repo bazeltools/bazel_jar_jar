@@ -63,6 +63,14 @@ def _jar_jar_aspect_impl(target, ctx):
     if len(current_jars) == 0:
         current_jars = [_build_nosrc_jar(ctx)]
 
+    java_info_runtime_deps = []
+    if hasattr(ctx.rule.attr, "runtime_deps"):
+        java_info_runtime_deps = [d[ShadedJars].java_info for d in ctx.rule.attr.runtime_deps]
+
+    java_info_exports = []
+    if hasattr(ctx.rule.attr, "exports"):
+        java_info_exports = [d[ShadedJars].java_info for d in ctx.rule.attr.exports]
+
     java_outputs = []
     output_files = []
     for input_jar in current_jars:
@@ -74,8 +82,8 @@ def _jar_jar_aspect_impl(target, ctx):
                 output_jar = output_file,
                 compile_jar = output_file,
                 deps = [d[ShadedJars].java_info for d in ctx.rule.attr.deps],
-                runtime_deps = [d[ShadedJars].java_info for d in ctx.rule.attr.runtime_deps],
-                exports = [d[ShadedJars].java_info for d in ctx.rule.attr.exports],
+                runtime_deps = java_info_runtime_deps,
+                exports = java_info_exports,
             ),
         )
         flags = []
@@ -96,16 +104,6 @@ def _jar_jar_aspect_impl(target, ctx):
             progress_message = "thin jarjar %s" % ctx.label,
             arguments = [args],
         )
-
-    # this_shaded =
-    # children = [this_shaded]
-    # if "exports" in dir(ctx.rule.attr) and len(ctx.rule.attr.exports) > 0:
-    #     print(ctx.rule.attr.exports)
-    # #     children.append(merge_shaded_jars_info([d[ShadedJars] for d in ctx.rule.attr.exports]))
-    # if "deps" in dir(ctx.rule.attr):
-    #     children.append(merge_shaded_jars_info([d[ShadedJars] for d in ctx.rule.attr.deps]))
-    # if "runtime_deps" in dir(ctx.rule.attr):
-    #     children.append(merge_shaded_jars_info([d[ShadedJars] for d in ctx.rule.attr.runtime_deps]))
 
     return [
         ShadedJars(
