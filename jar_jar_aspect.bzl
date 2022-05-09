@@ -2,6 +2,8 @@
 ShadedJars = provider(fields = [
     "java_info",
     "output_files",
+    "tags",
+    "transitive_shaded",
 ])
 
 def merge_shaded_jars_info(shaded_jars):
@@ -63,13 +65,29 @@ def _jar_jar_aspect_impl(target, ctx):
     if len(current_jars) == 0:
         current_jars = [_build_nosrc_jar(ctx)]
 
+    transitive_shaded=[]
     java_info_runtime_deps = []
     if hasattr(ctx.rule.attr, "runtime_deps"):
-        java_info_runtime_deps = [d[ShadedJars].java_info for d in ctx.rule.attr.runtime_deps]
+        for d in ctx.rule.attr.runtime_deps:
+            shaded_jars = d[ShadedJars]
+            transitive_shaded.append(depset([shaded_jars]))
+            transitive_shaded.append(shaded_jars.transitive_shaded)
+            java_info_runtime_deps.append(shaded_jars.java_info)
 
     java_info_exports = []
     if hasattr(ctx.rule.attr, "exports"):
-        java_info_exports = [d[ShadedJars].java_info for d in ctx.rule.attr.exports]
+        for d in ctx.rule.attr.exports:
+            shaded_jars = d[ShadedJars]
+            transitive_shaded.append(depset([shaded_jars]))
+            transitive_shaded.append(shaded_jars.transitive_shaded)
+            java_info_exports.append(shaded_jars.java_info)
+
+    java_info_deps = []
+    for d in ctx.rule.attr.deps:
+        shaded_jars = d[ShadedJars]
+        transitive_shaded.append(depset([shaded_jars]))
+        transitive_shaded.append(shaded_jars.transitive_shaded)
+        java_info_deps.append(shaded_jars.java_info)
 
     java_outputs = []
     output_files = []
@@ -81,7 +99,7 @@ def _jar_jar_aspect_impl(target, ctx):
             JavaInfo(
                 output_jar = output_file,
                 compile_jar = output_file,
-                deps = [d[ShadedJars].java_info for d in ctx.rule.attr.deps],
+                deps = java_info_deps,
                 runtime_deps = java_info_runtime_deps,
                 exports = java_info_exports,
             ),
@@ -109,6 +127,8 @@ def _jar_jar_aspect_impl(target, ctx):
         ShadedJars(
             java_info = java_common.make_non_strict(java_common.merge(java_outputs)),
             output_files = depset(output_files),
+            tags = ctx.rule.attr.tags or [],
+            transitive_shaded = depset(transitive=transitive_shaded)
         ),
     ]
 
