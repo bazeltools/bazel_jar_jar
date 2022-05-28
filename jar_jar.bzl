@@ -6,7 +6,9 @@ load(
 def _jar_jar_impl(ctx):
     rule_file = ctx.file.rules
     if rule_file != None and ctx.attr.inline_rules != []:
-        fail("rules= and inline_rules= are incompatible; use one or the other.")
+        fail("Using both a rules file and inline_rules are incompatible; use one or the other.")
+    if rule_file == None and ctx.attr.inline_rules == []:
+        fail("You have to specify either a rules file or inline_rules.")
     if rule_file == None:
         rule_file = ctx.actions.declare_file("jar_jar-rules-" + ctx.label.name + ".tmp")
         ctx.actions.write(
