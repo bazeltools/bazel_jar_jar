@@ -6,7 +6,7 @@ load(
 def _jar_jar_impl(ctx):
     rule_file = ctx.file.rules
     if rule_file == None:
-        rule_file = ctx.actions.declare_file("tmp-rules-" + ctx.label.name)
+        rule_file = ctx.actions.declare_file("jar_jar-rules-" + ctx.label.name + ".tmp")
         ctx.actions.write(
             output = rule_file,
             content = "\n".join(ctx.attr.inline_rules)
