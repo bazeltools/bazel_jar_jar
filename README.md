@@ -49,8 +49,17 @@ jar_jar(
 
 The `input_jar` specifies the package that will be relocated. `name` is the target label to be used in place of the original package target label.
 
+Alternately, if you don't want to put the rules in a file, you can put the shading rules inline directly in the rule.  These follow the same
+[rules file formatting](#rules-file-formatting) as below, with each entry in the array acting as a line in the file.
+```
+jar_jar(
+    name = "shaded_args",
+    input_jar = "@com_twitter_scalding_args//jar",
+    inline_rules = ["rule com.twitter.scalding.** foo.@1"]
+```
+`inline_rules` and `rules` referring to a file are exclusive options; you can only have one or the other in your rule.  You must have one of them.
 
-Change any references in your code from the original package path to the new shaded package path. For example: `import com.twitter.scalding.Args` becomes `import foo.Args`.
+Make sure to change any references in your code from the original package path to the new shaded package path. For example: `import com.twitter.scalding.Args` becomes `import foo.Args`.
 
 ## Rules File Formatting
 
