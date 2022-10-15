@@ -7,8 +7,8 @@ java_library(
         "ProcessCommunicator.java",
     ],
     deps = [
-        "//external:com_github_johnynek_bazel_jar_jar/asm",
-        "//external:com_github_johnynek_bazel_jar_jar/asm_commons",
+        "@bazel_jar_jar_asm//jar",
+        "@bazel_jar_jar_asm_commons//jar",
         "//src/main/java/com/github/johnynek/jarjar",
         "@commons_lang3",
         "@junit_junit",
