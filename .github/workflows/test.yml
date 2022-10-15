@@ -2,14 +2,14 @@ name: Test
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
 
   build_test_main:
-    name: Build and test (main repository)
+    name: Build and test (master repository)
     runs_on: ${{ matrix.os }}
     matrix:
       os: [ubuntu-latest, macos-latest, windows-latest]
