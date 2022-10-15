@@ -12,7 +12,7 @@ jar_jar_toolchain = rule(
     attrs = {
         "rules": attr.label(allow_single_file = True),
         "duplicate_class_to_warn": attr.bool(mandatory = False, default = False),
-        "jar_jar_runner": attr.label(executable = True, cfg = "host", default = Label("@com_github_johnynek_bazel_jar_jar//src/main/java/com/github/johnynek/jarjar:app")),
+        "jar_jar_runner": attr.label(executable = True, cfg = "exec", default = "//src/main/java/com/github/johnynek/jarjar:app"),
         "jar_jar_is_native_image": attr.bool(default = False)
     },
 )
