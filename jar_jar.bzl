@@ -24,13 +24,13 @@ def _http_jar_with_servers(name, path, sha256, servers):
 def jar_jar_repositories(servers=["https://repo1.maven.org/maven2"]):
     _http_jar_with_servers(
       name = "bazel_jar_jar_asm",
-      path = "/org/ow2/asm/asm/7.0/asm-7.0.jar",
-      sha256 = "b88ef66468b3c978ad0c97fd6e90979e56155b4ac69089ba7a44e9aa7ffe9acf",
+      path = "/org/ow2/asm/asm/9.4/asm-9.4.jar",
+      sha256 = "39d0e2b3dc45af65a09b097945750a94a126e052e124f93468443a1d0e15f381",
       servers = servers,
     )
     _http_jar_with_servers(
       name = "bazel_jar_jar_asm_commons",
-      path = "/org/ow2/asm/asm-commons/7.0/asm-commons-7.0.jar",
-      sha256 = "fed348ef05958e3e846a3ac074a12af5f7936ef3d21ce44a62c4fa08a771927d",
+      path = "/org/ow2/asm/asm-commons/9.4/asm-commons-9.4.jar",
+      sha256 = "0c128a9ec3f33c98959272f6d16cf14247b508f58951574bcdbd2b56d6326364",
       servers = servers,
     )
