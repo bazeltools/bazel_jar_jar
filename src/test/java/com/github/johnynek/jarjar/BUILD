@@ -6,8 +6,8 @@ java_test(
     ],
     test_class = "com.github.johnynek.jarjar.GenericsTest",
     deps = [
-        "//external:com_github_johnynek_bazel_jar_jar/asm",
-        "//external:com_github_johnynek_bazel_jar_jar/asm_commons",
+        "@bazel_jar_jar_asm//jar",
+        "@bazel_jar_jar_asm_commons//jar",
         "//src/main/java/com/github/johnynek/jarjar",
     ],
 )
@@ -20,8 +20,8 @@ java_test(
     ],
     test_class = "com.github.johnynek.jarjar.MethodRewriterTest",
     deps = [
-        "//external:com_github_johnynek_bazel_jar_jar/asm",
-        "//external:com_github_johnynek_bazel_jar_jar/asm_commons",
+        "@bazel_jar_jar_asm//jar",
+        "@bazel_jar_jar_asm_commons//jar",
         "//src/main/java/com/github/johnynek/jarjar",
     ],
 )
@@ -31,8 +31,8 @@ java_test(
     srcs = ["PackageRemapperTest.java"],
     test_class = "com.github.johnynek.jarjar.PackageRemapperTest",
     deps = [
-        "//external:com_github_johnynek_bazel_jar_jar/asm",
-        "//external:com_github_johnynek_bazel_jar_jar/asm_commons",
+        "@bazel_jar_jar_asm//jar",
+        "@bazel_jar_jar_asm_commons//jar",
         "//src/main/java/com/github/johnynek/jarjar",
     ],
 )
@@ -42,8 +42,8 @@ java_test(
     srcs = ["WildcardTest.java"],
     test_class = "com.github.johnynek.jarjar.WildcardTest",
     deps = [
-        "//external:com_github_johnynek_bazel_jar_jar/asm",
-        "//external:com_github_johnynek_bazel_jar_jar/asm_commons",
+        "@bazel_jar_jar_asm//jar",
+        "@bazel_jar_jar_asm_commons//jar",
         "//src/main/java/com/github/johnynek/jarjar",
     ],
 )
@@ -53,8 +53,8 @@ java_test(
     srcs = ["ZapProcessorTest.java"],
     test_class = "com.github.johnynek.jarjar.ZapProcessorTest",
     deps = [
-        "//external:com_github_johnynek_bazel_jar_jar/asm",
-        "//external:com_github_johnynek_bazel_jar_jar/asm_commons",
+        "@bazel_jar_jar_asm//jar",
+        "@bazel_jar_jar_asm_commons//jar",
         "//src/main/java/com/github/johnynek/jarjar",
     ],
 )
