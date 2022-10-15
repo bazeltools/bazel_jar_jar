@@ -62,7 +62,7 @@ public class JavaVersionsTest extends IntegrationTestBase {
 
   private File createJarWithSingleClass(String javaVersion) throws Exception {
     String className = "com.github.johnynek.jarjar.SingleClass";
-    String basePath = className.replaceAll("[.]", "/");
+    String basePath = className.replace('.', File.separatorChar);
     String sourcePath = basePath + ".java";
 
     Map<String, String> files = new HashMap<String, String>();

@@ -148,7 +148,7 @@ public class BadPackagesTest extends IntegrationTestBase {
     List<String> sourcePaths = new ArrayList<String>(classNameMap.size());
     files.put("README.md", "# Just making sure that normal resource files still work fine.");
     for (String className : classNameMap.keySet()) {
-      String basePath = className.replaceAll("[.]", "/");
+      String basePath = className.replace('.', File.separatorChar);
       String sourcePath = basePath + ".java";
       String binaryPath = basePath + ".class";
       files.put(sourcePath, basicJavaFile(className));
@@ -162,7 +162,7 @@ public class BadPackagesTest extends IntegrationTestBase {
     Assert.assertTrue(tryCompile(folder, paths, "-source", "6", "-target", "6"));
 
     for (String className : classNameMap.keySet()) {
-      String dstName = classNameMap.get(className).replaceAll("[.]", "/") + ".class";
+      String dstName = classNameMap.get(className).replace('.', File.separatorChar) + ".class";
       File srcFile = new File(folder + File.separator + nameToBinaryPath.get(className));
       File dstFile = new File(folder + File.separator + dstName);
       if (!srcFile.getPath().equals(dstFile.getPath())) {

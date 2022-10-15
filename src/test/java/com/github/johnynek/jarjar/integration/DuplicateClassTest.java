@@ -1,6 +1,7 @@
 package com.github.johnynek.jarjar.integration;
 
 
+import com.google.devtools.build.runfiles.Runfiles;
 import org.junit.Test;
 import java.util.Map;
 import java.util.List;
@@ -16,9 +17,13 @@ import static org.junit.Assert.assertTrue;
 
 public class DuplicateClassTest extends IntegrationTestBase {
 
+    private static final String DUPLICATE_CLASSES_JAR =
+      "com_github_johnynek_bazel_jar_jar/src/test/java/com/github/johnynek/jarjar/integration/duplicate_class.jar";
+
     @Test
     public void testErrorOnDuplicateClasses() throws Exception {
-      File duplicateClassJar = new File("src/test/java/com/github/johnynek/jarjar/integration/duplicate_class.jar");
+      Runfiles runfiles = Runfiles.create();
+      File duplicateClassJar = new File(runfiles.rlocation(DUPLICATE_CLASSES_JAR));
       assertTrue("Test is misconfigured if we can't find this", duplicateClassJar.exists());
 
       try {
@@ -34,7 +39,8 @@ public class DuplicateClassTest extends IntegrationTestBase {
 
     @Test
     public void ignoreDuplicateClasses() throws Exception {
-      File duplicateClassJar = new File("src/test/java/com/github/johnynek/jarjar/integration/duplicate_class.jar");
+      Runfiles runfiles = Runfiles.create();
+      File duplicateClassJar = new File(runfiles.rlocation(DUPLICATE_CLASSES_JAR));
       assertTrue("Test is misconfigured if we can't find this", duplicateClassJar.exists());
 
       File shaded = shadeJar(duplicateClassJar, new HashMap<String, String>() {{
