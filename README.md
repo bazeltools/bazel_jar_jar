@@ -48,6 +48,7 @@ jar_jar(
 ```
 
 The `input_jar` specifies the package that will be relocated. `name` is the target label to be used in place of the original package target label.
+The optional `output_jar` field specifies the name of the output jar. If not specified, the output jar will be named `<name>.jar`.
 
 Alternately, if you don't want to put the rules in a file, you can put the shading rules inline directly in the rule.  These follow the same
 [rules file formatting](#rules-file-formatting) as below, with each entry in the array acting as a line in the file.
