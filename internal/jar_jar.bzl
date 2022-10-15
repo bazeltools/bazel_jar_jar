@@ -1,3 +1,5 @@
+load("@bazel_tools//tools/jdk:toolchain_utils.bzl", "find_java_toolchain")
+
 def _jar_jar_impl(ctx):
     rule_file = ctx.file.rules
     if rule_file != None and ctx.attr.inline_rules != []:
@@ -25,10 +27,18 @@ def _jar_jar_impl(ctx):
         arguments = [args],
     )
 
+    java_toolchain = find_java_toolchain(ctx, ctx.attr._java_toolchain)
+    compile_jar = java_common.run_ijar(
+        ctx.actions,
+        jar = ctx.outputs.output_jar,
+        target_label = ctx.label,
+        java_toolchain = java_toolchain,
+    )
+
     return [
         JavaInfo(
             output_jar = ctx.outputs.output_jar,
-            compile_jar = ctx.outputs.output_jar,
+            compile_jar = compile_jar,
         ),
         DefaultInfo(files = depset([ctx.outputs.output_jar])),
     ]
@@ -41,6 +51,13 @@ jar_jar = rule(
         "rules": attr.label(allow_single_file = True),
         "inline_rules" : attr.string_list(),
         "_jarjar_runner": attr.label(executable = True, cfg = "exec", default = "//src/main/java/com/github/johnynek/jarjar:app"),
+        "_java_toolchain": attr.label(
+            default = "@bazel_tools//tools/jdk:current_java_toolchain",
+        ),
     },
+    fragments = ["java"],
     provides = [JavaInfo],
+    toolchains = [
+        "@bazel_tools//tools/jdk:toolchain_type",
+    ],
 )
