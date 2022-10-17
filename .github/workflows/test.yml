@@ -9,10 +9,11 @@ on:
 jobs:
 
   build_test_main:
-    name: Build and test (master repository)
-    runs_on: ${{ matrix.os }}
-    matrix:
-      os: [ubuntu-latest, macos-latest, windows-latest]
+    name: Build and test main repository
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
 
     steps:
       - uses: actions/checkout@v2
@@ -21,13 +22,14 @@ jobs:
         run: bazelisk build //...
 
       - name: Test
-        run: bazelisk test //...
+        run: bazelisk test --test_output=errors //...
 
-  build_test_test:
-    name: Build and test (test repository)
-    runs_on: ${{ matrix.os }}
-    matrix:
-      os: [ubuntu-latest, macos-latest, windows-latest]
+  build_test:
+    name: Build test repository
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
 
     steps:
       - uses: actions/checkout@v2
@@ -35,7 +37,3 @@ jobs:
       - name: Build
         working-directory: test
         run: bazelisk build //...
-
-      - name: Test
-        working-directory: test
-        run: bazelisk test //...

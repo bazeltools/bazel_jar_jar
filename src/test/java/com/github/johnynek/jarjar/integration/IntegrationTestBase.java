@@ -216,16 +216,16 @@ public abstract class IntegrationTestBase {
    * @param fullyQualifiedName The fully qualified classname of the java class should use.
    */
   protected String basicJavaFile(String fullyQualifiedName) {
-    fullyQualifiedName = fullyQualifiedName.replaceAll("[.]", File.separator);
+    fullyQualifiedName = fullyQualifiedName.replace('.', File.separatorChar);
 
     String packageName = null;
     String className = null;
 
-    int slash = fullyQualifiedName.lastIndexOf('/');
+    int slash = fullyQualifiedName.lastIndexOf(File.separatorChar);
     if (slash < 0) {
       className = fullyQualifiedName;
     } else {
-      packageName = fullyQualifiedName.substring(0, slash).replaceAll(File.separator, ".");
+      packageName = fullyQualifiedName.substring(0, slash).replace(File.separatorChar, '.');
       className = fullyQualifiedName.substring(slash+1);
     }
 

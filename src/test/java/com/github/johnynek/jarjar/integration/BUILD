@@ -35,5 +35,8 @@ java_test(
     srcs = ["DuplicateClassTest.java"],
     data = ["duplicate_class.jar"],
     test_class = "com.github.johnynek.jarjar.integration.DuplicateClassTest",
-    deps = [":base"],
+    deps = [
+        ":base",
+        "@bazel_tools//tools/java/runfiles",
+    ],
 )
