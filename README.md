@@ -25,7 +25,7 @@ jar_jar_repositories()
 ```
 
 
-## Usage
+## Usage for a single jar
 
 > _Note_: Example code exists in [`test/example`](/test/example)
 
@@ -61,6 +61,12 @@ jar_jar(
 `inline_rules` and `rules` referring to a file are exclusive options; you can only have one or the other in your rule.  You must have one of them.
 
 Make sure to change any references in your code from the original package path to the new shaded package path. For example: `import com.twitter.scalding.Args` becomes `import foo.Args`.
+
+## Aspect usage
+
+In addition to building a single output jar, there is also an aspect that can be used in your own custom rules to
+transform a large graph, or the thin_jar_jar rule. This has the added benefit of per-rule caching, which can be considerably more efficient in large repos.
+See the `thin_jar_jar.bzl` rule and the `test/jar_jar_apect` for an example of setting this up.
 
 ## Rules File Formatting
 
