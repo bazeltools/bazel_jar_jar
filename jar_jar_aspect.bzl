@@ -138,6 +138,7 @@ jar_jar_aspect = aspect(
     required_aspect_providers = [
         [JavaInfo],
         [ShadedJars],
+        []
     ],
     attrs = {
         "_java_toolchain": attr.label(
