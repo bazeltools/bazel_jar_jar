@@ -71,25 +71,28 @@ def _jar_jar_aspect_impl(target, ctx):
     java_info_runtime_deps = []
     if hasattr(ctx.rule.attr, "runtime_deps"):
         for d in ctx.rule.attr.runtime_deps:
-            shaded_jars = d[ShadedJars]
-            transitive_shaded.append(depset([shaded_jars]))
-            transitive_shaded.append(shaded_jars.transitive_shaded)
-            java_info_runtime_deps.append(shaded_jars.java_info)
+            if ShadedJars in d:
+                shaded_jars = d[ShadedJars]
+                transitive_shaded.append(depset([shaded_jars]))
+                transitive_shaded.append(shaded_jars.transitive_shaded)
+                java_info_runtime_deps.append(shaded_jars.java_info)
 
     java_info_exports = []
     if hasattr(ctx.rule.attr, "exports"):
         for d in ctx.rule.attr.exports:
-            shaded_jars = d[ShadedJars]
-            transitive_shaded.append(depset([shaded_jars]))
-            transitive_shaded.append(shaded_jars.transitive_shaded)
-            java_info_exports.append(shaded_jars.java_info)
+            if ShadedJars in d:
+                shaded_jars = d[ShadedJars]
+                transitive_shaded.append(depset([shaded_jars]))
+                transitive_shaded.append(shaded_jars.transitive_shaded)
+                java_info_exports.append(shaded_jars.java_info)
 
     java_info_deps = []
     for d in ctx.rule.attr.deps:
-        shaded_jars = d[ShadedJars]
-        transitive_shaded.append(depset([shaded_jars]))
-        transitive_shaded.append(shaded_jars.transitive_shaded)
-        java_info_deps.append(shaded_jars.java_info)
+        if ShadedJars in d:
+            shaded_jars = d[ShadedJars]
+            transitive_shaded.append(depset([shaded_jars]))
+            transitive_shaded.append(shaded_jars.transitive_shaded)
+            java_info_deps.append(shaded_jars.java_info)
 
     java_outputs = []
     output_files = []
