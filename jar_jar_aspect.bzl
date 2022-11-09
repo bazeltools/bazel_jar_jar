@@ -55,7 +55,12 @@ rm -f {jar_output}
 def _jar_jar_aspect_impl(target, ctx):
     if JavaInfo not in target:
         return []
-    current_jars = target[JavaInfo].runtime_output_jars
+
+    current_jars = [j for j in target[JavaInfo].runtime_output_jars]
+    # For some outputs, like those from the built in java proto aspect, the runtime output jars is empty, but the jars
+    # exist instead in the java_outputs section.
+    current_jars.extend([e.class_jar for e in target[JavaInfo].java_outputs])
+
     toolchain_cfg = ctx.toolchains["@com_github_johnynek_bazel_jar_jar//toolchains:toolchain_type"]
     rules = toolchain_cfg.rules.files.to_list()[0]
     duplicate_to_warn = toolchain_cfg.duplicate_class_to_warn
@@ -143,6 +148,8 @@ jar_jar_aspect = aspect(
     required_aspect_providers = [
         [JavaInfo],
         [ShadedJars],
+        # Allows this to pass through java proto libraries
+        ['proto_java'],
         []
     ],
     attrs = {
