@@ -10,9 +10,9 @@ java_library(
         "@bazel_jar_jar_asm//jar",
         "@bazel_jar_jar_asm_commons//jar",
         "//src/main/java/com/github/johnynek/jarjar",
-        "@commons_lang3",
-        "@junit_junit",
-        "@org_hamcrest_hamcrest_core",
+        "@maven//:org_apache_commons_commons_lang3",
+        "@maven//:junit_junit",
+        "@maven//:org_hamcrest_hamcrest_core",
     ],
 )
 

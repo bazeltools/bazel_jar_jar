@@ -7,31 +7,45 @@ load(
 
 jar_jar_repositories()
 
-load(
-    "@bazel_tools//tools/build_defs/repo:jvm.bzl",
-    "jvm_maven_import_external",
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+RULES_JVM_EXTERNAL_TAG = "4.5"
+
+RULES_JVM_EXTERNAL_SHA = "b17d7388feb9bfa7f2fa09031b32707df529f26c91ab9e5d909eb1676badd9a6"
+
+http_archive(
+    name = "rules_jvm_external",
+    sha256 = RULES_JVM_EXTERNAL_SHA,
+    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_TAG,
+    url = "https://github.com/bazelbuild/rules_jvm_external/archive/refs/tags/%s.zip" % RULES_JVM_EXTERNAL_TAG,
 )
 
-jvm_maven_import_external(
-    name = "org_hamcrest_hamcrest_core",
-    artifact = "org.hamcrest:hamcrest-core:1.3",
-    artifact_sha256 = "66fdef91e9739348df7a096aa384a5685f4e875584cce89386a7a47251c4d8e9",
-    licenses = [],
-    server_urls = ["https://repo1.maven.org/maven2"],
+load("@rules_jvm_external//:repositories.bzl", "rules_jvm_external_deps")
+
+rules_jvm_external_deps()
+
+load("@rules_jvm_external//:setup.bzl", "rules_jvm_external_setup")
+
+rules_jvm_external_setup()
+
+load("@rules_jvm_external//:defs.bzl", "maven_install")
+
+maven_install(
+    artifacts = [
+        "junit:junit:4.13",
+        "org.apache.commons:commons-lang3:3.11",
+        "org.hamcrest:hamcrest-core:1.3",
+        "org.openjdk.jmh:jmh-core:1.34",
+        "org.openjdk.jmh:jmh-generator-annprocess:1.34",
+    ],
+    fail_if_repin_required = True,
+    maven_install_json = "@//:maven_install.json",
+    repositories = [
+        "https://maven.google.com",
+        "https://repo1.maven.org/maven2",
+    ],
 )
 
-jvm_maven_import_external(
-    name = "junit_junit",
-    artifact = "junit:junit:4.13",
-    artifact_sha256 = "4b8532f63bdc0e0661507f947eb324a954d1dbac631ad19c8aa9a00feed1d863",
-    licenses = [],
-    server_urls = ["https://repo1.maven.org/maven2"],
-)
+load("@maven//:defs.bzl", "pinned_maven_install")
 
-jvm_maven_import_external(
-    name = "commons_lang3",
-    artifact = "org.apache.commons:commons-lang3:3.11",
-    artifact_sha256 = "4ee380259c068d1dbe9e84ab52186f2acd65de067ec09beff731fca1697fdb16",
-    licenses = [],
-    server_urls = ["https://repo1.maven.org/maven2"],
-)
+pinned_maven_install()

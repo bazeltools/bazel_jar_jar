@@ -1,0 +1,30 @@
+java_plugin(
+    name = "JmhGeneratorAnnotationProcessor",
+    processor_class = "org.openjdk.jmh.generators.BenchmarkProcessor",
+    visibility = ["//src/jmh/java:__subpackages__"],
+    deps = ["@maven//:org_openjdk_jmh_jmh_generator_annprocess"],
+)
+
+java_binary(
+    name = "input",
+    create_executable = False,
+    runtime_deps = [
+        "@maven//:junit_junit",
+    ],
+)
+
+java_binary(
+    name = "JarJarBenchmark",
+    srcs = ["JarJarBenchmark.java"],
+    data = [
+        "shade.jarjar",
+        ":input_deploy.jar",
+    ],
+    main_class = "org.openjdk.jmh.Main",
+    plugins = [":JmhGeneratorAnnotationProcessor"],
+    deps = [
+        "//src/main/java/com/github/johnynek/jarjar",
+        "@bazel_tools//tools/java/runfiles",
+        "@maven//:org_openjdk_jmh_jmh_core",
+    ],
+)
