@@ -41,7 +41,7 @@ abstract public class JarTransformer implements JarProcessor {
                 throw new IOException("Unable to transform " + struct.name, e);
             }
             struct.data = w.toByteArray();
-            struct.name = pathFromName(w.getClassName());
+            struct.name = struct.getVersionPrefix() + pathFromName(w.getClassName());
         }
         return true;
     }

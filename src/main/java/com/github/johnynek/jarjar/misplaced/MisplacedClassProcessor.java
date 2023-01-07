@@ -44,7 +44,7 @@ public abstract class MisplacedClassProcessor implements JarProcessor {
       struct.skipTransform = true;
       return true;
     }
-    if (!originalClassName.equals(struct.name)) {
+    if (!originalClassName.equals(struct.getClassName())) {
       System.err.println(formatMisplacedClassMessage(struct, originalClassName));
       handleMisplacedClass(struct, originalClassName);
       if (!shouldTransform()) {
