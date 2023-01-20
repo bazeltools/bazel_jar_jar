@@ -16,9 +16,30 @@
 
 package com.github.johnynek.jarjar.util;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class EntryStruct {
+    private static final Pattern NAME_PARTS_PATTERN = Pattern.compile("((?:META-INF/versions/[1-9][0-9]*/)?)(.*)");
+
     public byte[] data;
     public String name;
     public long time;
     public boolean skipTransform;
+
+    /**
+     * Returns a version path prefix such as "META-INF/versions/9/" if the entry is a versioned
+     * entry in a multi-release JAR, or an empty string otherise.
+     */
+    public String getVersionPrefix() {
+        Matcher matcher = NAME_PARTS_PATTERN.matcher(name);
+        matcher.matches();
+        return matcher.group(1);
+    }
+
+    public String getClassName() {
+        Matcher matcher = NAME_PARTS_PATTERN.matcher(name);
+        matcher.matches();
+        return matcher.group(2);
+    }
 }
