@@ -101,6 +101,10 @@ def _jar_jar_aspect_impl(target, ctx):
 
     java_outputs = []
     output_files = []
+
+    source_jar = None
+    if len(target[JavaInfo].source_jars) > 0:
+        source_jar = target[JavaInfo].source_jars[0]
     for input_jar in current_jars:
         output_file_name = "{prefix}-shaded.jar".format(prefix = __get_no_ext_name(input_jar))
         output_file = ctx.actions.declare_file(output_file_name)
@@ -112,6 +116,7 @@ def _jar_jar_aspect_impl(target, ctx):
                 deps = java_info_deps,
                 runtime_deps = java_info_runtime_deps,
                 exports = java_info_exports,
+                source_jar = source_jar,
             ),
         )
         flags = []
