@@ -25,6 +25,13 @@ import java.util.*;
 
 public class StandaloneJarProcessor
 {
+    // this repairs the incorrect UTC on write, but Local on read
+    // timestamp. Apply this to a read timestamp before writing
+    // see: https://github.com/eed3si9n/jarjar-abrams/pull/37/files#r1344693775
+    public static long fixTimestamp(long ts) {
+        return ts - java.util.TimeZone.getDefault().getOffset(ts);
+    }
+
     public static void run(File from, File to, JarProcessor proc, Boolean warnOnDuplicateClass) throws IOException {
         byte[] buf = new byte[0x2000];
 
@@ -39,7 +46,11 @@ public class StandaloneJarProcessor
                 EntryStruct struct = new EntryStruct();
                 JarEntry entry = e.nextElement();
                 struct.name = entry.getName();
-                struct.time = entry.getTime();
+                // In the JDK, getTime converts the dos time in the zip
+                // into local time using a deprecated Date api that uses
+                // the default timezone, which often won't be UTC.
+                // but when setting, it assumes we are in UTC.
+                struct.time = fixTimestamp(entry.getTime());
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 IoUtil.pipe(in.getInputStream(entry), baos, buf);
                 struct.data = baos.toByteArray();

@@ -58,3 +58,14 @@ java_test(
         "//src/main/java/com/github/johnynek/jarjar",
     ],
 )
+
+java_test(
+    name = "TimestampFixTest",
+    srcs = ["TimestampFixTest.java"],
+    test_class = "com.github.johnynek.jarjar.TimestampFixTest",
+    deps = [
+        "@bazel_jar_jar_asm//jar",
+        "@bazel_jar_jar_asm_commons//jar",
+        "//src/main/java/com/github/johnynek/jarjar",
+    ],
+)
