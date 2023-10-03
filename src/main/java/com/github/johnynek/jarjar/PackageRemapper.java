@@ -31,7 +31,7 @@ class PackageRemapper extends Remapper
     private final List<Wildcard> wildcards;
     private final Map<String, String> typeCache = new HashMap<String, String>();
     private final Map<String, String> pathCache = new HashMap<String, String>();
-    private final Map<String, String> valueCache = new HashMap<String, String>();
+    private final Map<Object, String> valueCache = new HashMap<Object, String>();
     private final boolean verbose;
 
     public PackageRemapper(List<Rule> ruleList, boolean verbose) {
@@ -45,67 +45,76 @@ class PackageRemapper extends Remapper
     }
 
     public String map(String key) {
-        return typeCache.computeIfAbsent(key, this::replaceHelper);
+        String s = typeCache.get(key);
+        if (s == null) {
+            s = replaceHelper(key);
+            if (key.equals(s))
+                s = null;
+            typeCache.put(key, s);
+        }
+        return s;
     }
 
     public String mapPath(String path) {
-        return pathCache.computeIfAbsent(path, this::computePath);
+        String s = pathCache.get(path);
+        if (s == null) {
+            s = path;
+            int slash = s.lastIndexOf('/');
+            String end;
+            if (slash < 0) {
+                end = s;
+                s = RESOURCE_SUFFIX;
+            } else {
+                end = s.substring(slash + 1);
+                s = s.substring(0, slash + 1) + RESOURCE_SUFFIX;
+            }
+            boolean absolute = s.startsWith("/");
+            if (absolute) s = s.substring(1);
+
+            s = replaceHelper(s);
+
+            if (absolute) s = "/" + s;
+            if (s.indexOf(RESOURCE_SUFFIX) < 0)
+              return path;
+            s = s.substring(0, s.length() - RESOURCE_SUFFIX.length()) + end;
+            pathCache.put(path, s);
+        }
+        return s;
     }
 
     public Object mapValue(Object value) {
         if (value instanceof String) {
-            return valueCache.computeIfAbsent((String) value, this::computeValue);
-        }
-        return super.mapValue(value);
-    }
-
-    private String computePath(String path) {
-        String s = path;
-        int slash = s.lastIndexOf('/');
-        String end;
-        if (slash < 0) {
-            end = s;
-            s = RESOURCE_SUFFIX;
-        } else {
-            end = s.substring(slash + 1);
-            s = s.substring(0, slash + 1) + RESOURCE_SUFFIX;
-        }
-        boolean absolute = s.startsWith("/");
-        if (absolute) s = s.substring(1);
-
-        s = map(s);
-
-        if (absolute) s = "/" + s;
-        if (s.indexOf(RESOURCE_SUFFIX) < 0)
-            return path;
-        s = s.substring(0, s.length() - RESOURCE_SUFFIX.length()) + end;
-        return s;
-    }
-
-    public String computeValue(String value) {
-        String s = value;
-        if (isArrayForName(s)) {
-            String desc1 = s.replace('.', '/');
-            String desc2 = mapDesc(desc1);
-            if (!desc2.equals(desc1))
-                return desc2.replace('/', '.');
-        } else {
-            s = mapPath(s);
-            if (s.equals(value)) {
-                boolean hasDot = s.indexOf('.') >= 0;
-                boolean hasSlash = s.indexOf('/') >= 0;
-                if (!(hasDot && hasSlash)) {
-                    if (hasDot) {
-                        return replaceHelper(s.replace('.', '/')).replace('/', '.');
-                    } else {
-                        return replaceHelper(s);
+            String s = valueCache.get(value);
+            if (s == null) {
+                s = (String)value;
+                if (isArrayForName(s)) {
+                    String desc1 = s.replace('.', '/');
+                    String desc2 = mapDesc(desc1);
+                    if (!desc2.equals(desc1))
+                        return desc2.replace('/', '.');
+                } else {
+                    s = mapPath(s);
+                    if (s.equals(value)) {
+                        boolean hasDot = s.indexOf('.') >= 0;
+                        boolean hasSlash = s.indexOf('/') >= 0;
+                        if (!(hasDot && hasSlash)) {
+                            if (hasDot) {
+                                s = replaceHelper(s.replace('.', '/')).replace('/', '.');
+                            } else {
+                                s = replaceHelper(s);
+                            }
+                        }
                     }
                 }
+                valueCache.put(value, s);
             }
+            // TODO: add back class name to verbose message
             if (verbose && !s.equals(value))
                 System.err.println("Changed \"" + value + "\" -> \"" + s + "\"");
+            return s;
+        } else {
+            return super.mapValue(value);
         }
-        return s;
     }
 
     private String replaceHelper(String value) {
