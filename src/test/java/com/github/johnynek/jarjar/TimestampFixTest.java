@@ -29,7 +29,6 @@ public class TimestampFixTest extends TestCase {
       JarInputStream in = new JarInputStream(new ByteArrayInputStream(baos.toByteArray()));
       je = in.getNextJarEntry();
       long readTime = StandaloneJarProcessor.fixTimestamp(je.getTime());
-      //assertEquals(readTime, startTime);
       assertEquals(startTime, readTime);
     }
 
