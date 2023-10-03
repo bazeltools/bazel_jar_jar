@@ -1,0 +1,20 @@
+load(
+    "@com_github_johnynek_bazel_jar_jar//:jar_jar.bzl",
+    "jar_jar",
+)
+
+jar_jar(
+    name = "scalding_args__shaded",
+    input_jar = "@jvm__com_twitter__scalding_args//jar",
+    rules = "shade_rule",
+    output_jar = "scalding_args__shaded.jar",
+)
+
+sh_test(
+    name = "jarjar_test",
+    srcs = ["jarjar_test.sh"],
+    data = [":scalding_args__shaded"],
+    env = {
+        "SCALDING_ARGS__SHADED": "$(location :scalding_args__shaded)",
+    },
+)
