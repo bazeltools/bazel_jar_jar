@@ -1,7 +1,5 @@
 package com.github.johnynek.jarjar;
 
-import com.github.johnynek.jarjar.util.JarTransformerChain;
-import com.github.johnynek.jarjar.util.RemappingClassTransformer;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -67,8 +65,7 @@ public class MethodRewriterTest extends TestCase {
     Rule rule = new Rule();
     rule.setPattern("com.google.**");
     rule.setResult("com.googleshaded.@1");
-    new JarTransformerChain(new RemappingClassTransformer[]{
-        new MethodSignatureClassTransformer(new PackageRemapper(Arrays.asList(rule), false))})
+    new MethodSignatureProcessor(new PackageRemapper(Arrays.asList(rule), false))
         .process(entryStruct);
     new ClassReader(entryStruct.data)
         .accept(new VerifyingClassVisitor(), ClassReader.EXPAND_FRAMES);
