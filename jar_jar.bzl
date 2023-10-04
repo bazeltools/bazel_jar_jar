@@ -23,14 +23,14 @@ def _http_jar_with_servers(name, path, sha256, servers):
 
 def jar_jar_repositories(servers=["https://repo1.maven.org/maven2"]):
     _http_jar_with_servers(
-      name = "bazel_jar_jar_asm",
-      path = "/org/ow2/asm/asm/9.4/asm-9.4.jar",
-      sha256 = "39d0e2b3dc45af65a09b097945750a94a126e052e124f93468443a1d0e15f381",
+      name = "jvm__jarjar_abrams_assembly",
+      path = "/com/eed3si9n/jarjarabrams/jarjar-abrams-assembly_2.12/1.10.0/jarjar-abrams-assembly_2.12-1.10.0.jar",
+      sha256 = "d380361374e4a367e2e7f322b4c56c825c15b29f3567ee67bc9d6c07c5bb97ba",
       servers = servers,
     )
     _http_jar_with_servers(
-      name = "bazel_jar_jar_asm_commons",
-      path = "/org/ow2/asm/asm-commons/9.4/asm-commons-9.4.jar",
-      sha256 = "0c128a9ec3f33c98959272f6d16cf14247b508f58951574bcdbd2b56d6326364",
+      name = "jvm__com_twitter__scalding_args",
+      path = "/com/twitter/scalding-args_2.12/0.17.4/scalding-args_2.12-0.17.4.jar",
+      sha256 = "e0de2ad8ef344bb11a2854275b5b85a1adb17f0e0ed9740177d940a602cd977b",
       servers = servers,
     )

@@ -1,1 +1,0 @@
-rule org.junit.** shaded.@0
