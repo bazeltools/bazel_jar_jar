@@ -37,6 +37,7 @@ public class DuplicateClassTest extends IntegrationTestBase {
       }
     }
 
+    @SuppressWarnings("DoubleBraceInitialization")
     @Test
     public void ignoreDuplicateClasses() throws Exception {
       Runfiles runfiles = Runfiles.create();

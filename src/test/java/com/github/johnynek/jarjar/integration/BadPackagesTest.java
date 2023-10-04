@@ -20,6 +20,7 @@ import static org.junit.Assert.fail;
  */
 public class BadPackagesTest extends IntegrationTestBase {
 
+  @SuppressWarnings("DoubleBraceInitialization")
   @Test
   public void testSkipMisnamedClass() throws Exception {
     File jar = createJarWithMisnamedClass();
@@ -35,6 +36,7 @@ public class BadPackagesTest extends IntegrationTestBase {
     assertTrue(entries.contains("README.md"));
   }
 
+  @SuppressWarnings("DoubleBraceInitialization")
   @Test
   public void testSkipOnlyMisnamedClass() throws Exception {
     Map<String, String> classes = new HashMap<String, String>();
@@ -59,6 +61,7 @@ public class BadPackagesTest extends IntegrationTestBase {
     Assert.assertTrue(entries.contains("b/c/d/Example.class"));
   }
 
+  @SuppressWarnings("DoubleBraceInitialization")
   @Test
   public void testOmitOnlyMisnamedClass() throws Exception {
     Map<String, String> classes = new HashMap<String, String>();
@@ -84,6 +87,7 @@ public class BadPackagesTest extends IntegrationTestBase {
     Assert.assertTrue(entries.contains("b/c/d/Example.class"));
   }
 
+  @SuppressWarnings("DoubleBraceInitialization")
   @Test
   public void testMoveMisnamedClass() throws Exception {
     File jar = createJarWithMisnamedClass();
@@ -99,6 +103,7 @@ public class BadPackagesTest extends IntegrationTestBase {
     assertTrue(entries.contains("README.md"));
   }
 
+  @SuppressWarnings("DoubleBraceInitialization")
   @Test
   public void testOmitMisnamedClass() throws Exception {
     File jar = createJarWithMisnamedClass();
@@ -114,6 +119,7 @@ public class BadPackagesTest extends IntegrationTestBase {
     assertTrue(entries.contains("README.md"));
   }
 
+  @SuppressWarnings("DoubleBraceInitialization")
   @Test
   public void testFatalMisnamedClass() throws Exception {
     File jar = createJarWithMisnamedClass();
@@ -230,6 +236,7 @@ public class BadPackagesTest extends IntegrationTestBase {
     return createJar(folder);
   }
 
+  @SuppressWarnings("DoubleBraceInitialization")
   @Test
   public void testJarWithOldVersionsPackage() throws Exception {
     try {
