@@ -24,8 +24,8 @@ def _http_jar_with_servers(name, path, sha256, servers):
 def jar_jar_repositories(servers=["https://repo1.maven.org/maven2"]):
     _http_jar_with_servers(
       name = "jvm__jarjar_abrams_assembly",
-      path = "/com/eed3si9n/jarjarabrams/jarjar-abrams-assembly_2.12/1.11.0/jarjar-abrams-assembly_2.12-1.11.0.jar",
-      sha256 = "114478b75fd0fb4f595f19f5dc05cfe6744a449b12f7f6ea15543e2ce10d9266",
+      path = "/com/eed3si9n/jarjarabrams/jarjar-abrams-assembly_2.12/1.12.0/jarjar-abrams-assembly_2.12-1.12.0.jar",
+      sha256 = "792a84c4ba68e6a1e50229dd80b535709be08b39b4462c420482b3f66f35406c",
       servers = servers,
     )
     _http_jar_with_servers(
