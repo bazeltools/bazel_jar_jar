@@ -5,7 +5,7 @@ load(
 
 jar_jar(
     name = "shaded_args",
-    input_jar = "@com_twitter_scalding_args//jar",
+    input_jar = "@com_twitter_scalding_args",
     inline_rules = ["rule com.twitter.scalding.** foo.@1"],
 )
 

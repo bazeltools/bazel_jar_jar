@@ -5,15 +5,20 @@ JarJar rules for [Bazel](https://bazel.build/) (rename packages and classes in e
 This rule uses [pantsbuild's jarjar fork](https://github.com/pantsbuild/jarjar), which is now archived so we have forked/vendored the code. Much as they did before us.
 The main use case is to use more than one version of a jar at a time with different versions mapped to a different package. It can also be used to do [*dependency shading*](https://softwareengineering.stackexchange.com/questions/297276/what-is-a-shaded-java-dependency).
 
+## How to add to Bazel via `MODULE.bazel`
 
-## How to add to Bazel `WORKSPACE`
-
+```starlark
+bazel_dep(name = "bazel_jar_jar", version = "0.1.0") # Latest version as of 2023/10/31
 ```
+
+## How to add to Bazel via `WORKSPACE`
+
+```starlark
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 git_repository(
     name = "com_github_johnynek_bazel_jar_jar",
-    commit = "16e48f319048e090a2fe7fd39a794312d191fc6f", # Latest commit SHA as at 2019/02/13
+    commit = "4e7bf26da8bc8c955578fd8c8a2c763757d344df", # Latest commit SHA as of 2023/10/31
     remote = "https://github.com/johnynek/bazel_jar_jar.git",
 )
 
