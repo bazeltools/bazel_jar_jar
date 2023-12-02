@@ -2,7 +2,7 @@
 
 JarJar rules for [Bazel](https://bazel.build/) (rename packages and classes in existing jars)
 
-This rule uses [pantsbuild's jarjar fork](https://github.com/pantsbuild/jarjar), which is now archived so we have forked/vendored the code. Much as they did before us.
+This rule uses [Jar Jar Abrams](https://github.com/eed3si9n/jarjar-abrams), whose repo also maintains a forked/vendored Jar Jar Links.
 The main use case is to use more than one version of a jar at a time with different versions mapped to a different package. It can also be used to do [*dependency shading*](https://softwareengineering.stackexchange.com/questions/297276/what-is-a-shaded-java-dependency).
 
 ## How to add to Bazel via `MODULE.bazel`
