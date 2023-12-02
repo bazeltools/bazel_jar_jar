@@ -15,14 +15,14 @@ alias(
 
 jar_jar(
     name = "shaded_args_custom_out",
-    input_jar = "@com_twitter_scalding_args//jar",
+    input_jar = "@com_twitter_scalding_args",
     rules = "shade_rule",
     output_jar = "custom_name.jar",
 )
 
 jar_jar(
     name = "shaded_args",
-    input_jar = "@com_twitter_scalding_args//jar",
+    input_jar = "@com_twitter_scalding_args",
     rules = "shade_rule",
 )
 

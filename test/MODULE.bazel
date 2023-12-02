@@ -1,0 +1,16 @@
+bazel_dep(name = "bazel_jar_jar", repo_name = "com_github_johnynek_bazel_jar_jar")
+local_path_override(
+    module_name = "bazel_jar_jar",
+    path = "..",
+)
+
+bazel_dep(name = "rules_java", version = "6.3.1")
+
+register_toolchains("//jar_jar_aspect:jar_jar_toolchain")
+
+deps_ext = use_extension("//:deps.bzl", "deps_ext")
+use_repo(
+    deps_ext,
+    "com_twitter_scalding_args",
+    "org_twitter4j_twitter4j_core",
+)

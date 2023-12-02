@@ -7,7 +7,7 @@ java_library(
     name = "using_unshaded",
     srcs = ["UseUseUnshadedFoo.java"],
     deps = [
-        "@org_twitter4j_twitter4j_core//jar",
+        "@org_twitter4j_twitter4j_core",
     ],
 )
 

@@ -27,6 +27,24 @@ jobs:
       - name: Test
         run: bazelisk test --test_output=errors //...
 
+  build_test_main_bzlmod:
+    name: Build and test main repository with Bzlmod
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 8
+
+      - name: Build
+        run: bazelisk build --enable_bzlmod //...
+
+      - name: Test
+        run: bazelisk test --enable_bzlmod --test_output=errors //...
+
   build_test:
     name: Build test repository
     runs-on: ${{ matrix.os }}
@@ -45,3 +63,19 @@ jobs:
       - name: Build
         working-directory: test
         run: bazelisk build //...
+
+  build_test_bzlmod:
+    name: Build test repository with Bzlmod
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 8
+
+      - name: Build
+        working-directory: test
+        run: bazelisk build --enable_bzlmod //...

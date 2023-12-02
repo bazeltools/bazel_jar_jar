@@ -61,7 +61,7 @@ def _jar_jar_aspect_impl(target, ctx):
     # exist instead in the java_outputs section.
     current_jars.extend([e.class_jar for e in target[JavaInfo].java_outputs])
 
-    toolchain_cfg = ctx.toolchains["@com_github_johnynek_bazel_jar_jar//toolchains:toolchain_type"]
+    toolchain_cfg = ctx.toolchains["//toolchains:toolchain_type"]
     rules = toolchain_cfg.rules.files.to_list()[0]
     duplicate_to_warn = toolchain_cfg.duplicate_class_to_warn
 
@@ -165,6 +165,6 @@ jar_jar_aspect = aspect(
     },
 
     toolchains = [
-        "@com_github_johnynek_bazel_jar_jar//toolchains:toolchain_type",
+        "//toolchains:toolchain_type",
     ],
 )

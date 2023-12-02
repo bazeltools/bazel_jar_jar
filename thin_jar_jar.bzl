@@ -1,4 +1,4 @@
-load("@com_github_johnynek_bazel_jar_jar//:jar_jar_aspect.bzl", "ShadedJars", "jar_jar_aspect", "merge_shaded_jars_info")
+load("//:jar_jar_aspect.bzl", "ShadedJars", "jar_jar_aspect", "merge_shaded_jars_info")
 
 def _thin_jar_jar_impl(ctx):
     aspect_info = merge_shaded_jars_info(
