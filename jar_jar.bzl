@@ -2,6 +2,7 @@ load(
     "@bazel_tools//tools/build_defs/repo:http.bzl",
     "http_jar",
 )
+load("@rules_java//java:defs.bzl", "java_import")
 load(
     "//internal:jar_jar.bzl",
     _jar_jar = "jar_jar",
