@@ -2,7 +2,6 @@ load(
     "@bazel_tools//tools/build_defs/repo:http.bzl",
     "http_jar",
 )
-load("@rules_java//java:defs.bzl", "java_import")
 load(
     "//internal:jar_jar.bzl",
     _jar_jar = "jar_jar",
@@ -29,12 +28,6 @@ def jar_jar_repositories(servers=["https://repo1.maven.org/maven2"]):
     #   sha256 = "8e6492fd22fad431317c6810d8e10bd49844c1569a7f0de848bd8f536637a409",
     #   servers = servers,
     # )
-    java_import(
-        name = "jvm__jarjar_abrams_assembly",
-        jars = [
-            "jarjar-abrams-jars/jarjar-abrams-assembly_2.12.jar",
-        ]
-    )
     _http_jar_with_servers(
       name = "jvm__com_twitter__scalding_args",
       path = "/com/twitter/scalding-args_2.12/0.17.4/scalding-args_2.12-0.17.4.jar",
