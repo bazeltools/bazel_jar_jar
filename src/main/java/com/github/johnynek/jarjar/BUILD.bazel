@@ -1,12 +1,3 @@
-load("@rules_java//java:defs.bzl", "java_import")
-
-
-java_import(
-    name = "jvm__jarjar_abrams_assembly",
-    jars = [
-        "//jarjar-abrams-jars/jarjar-abrams-assembly_2.12.jar",
-    ]
-)
 
 java_binary(
     name = "app",
@@ -14,5 +5,5 @@ java_binary(
     srcs = ["Main.java"],
     visibility = ["//visibility:public"],
     # deps = ["@jvm__jarjar_abrams_assembly//jar"],
-    deps = [ ":jvm__jarjar_abrams_assembly" ]
+    deps = [ "//jarjar-abrams-jar:jvm__jarjar_abrams_assembly" ]
 )
