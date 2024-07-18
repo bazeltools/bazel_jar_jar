@@ -6,6 +6,10 @@ ShadedJars = provider(fields = [
     "transitive_shaded",
 ])
 
+ConfigJavaInfo = provider(fields = [
+    "config_java_info"
+])
+
 def merge_shaded_jars_info(shaded_jars):
     return ShadedJars(
         output_files = depset(transitive = [s.output_files for s in shaded_jars]),
@@ -57,10 +61,15 @@ def _jar_jar_aspect_impl(target, ctx):
         return []
 
     current_jars = [j for j in target[JavaInfo].runtime_output_jars]
+
     # For some outputs, like those from the built in java proto aspect, the runtime output jars is empty, but the jars
     # exist instead in the java_outputs section.
     current_jars.extend([e.class_jar for e in target[JavaInfo].java_outputs])
+    java_info_runtime_deps = []
 
+    if ConfigJavaInfo in target:
+        java_info_runtime_deps.append(target[ConfigJavaInfo].config_java_info)
+        #current_jars.extend([e.class_jar for e in target[ConfigJavaInfo].config_java_info.java_outputs])
     toolchain_cfg = ctx.toolchains["//toolchains:toolchain_type"]
     rules = toolchain_cfg.rules.files.to_list()[0]
     duplicate_to_warn = toolchain_cfg.duplicate_class_to_warn
@@ -73,7 +82,6 @@ def _jar_jar_aspect_impl(target, ctx):
         current_jars = [_build_nosrc_jar(ctx)]
 
     transitive_shaded=[]
-    java_info_runtime_deps = []
     if hasattr(ctx.rule.attr, "runtime_deps"):
         for d in ctx.rule.attr.runtime_deps:
             if ShadedJars in d:
@@ -91,6 +99,7 @@ def _jar_jar_aspect_impl(target, ctx):
                 transitive_shaded.append(shaded_jars.transitive_shaded)
                 java_info_exports.append(shaded_jars.java_info)
 
+    
     java_info_deps = []
     for d in ctx.rule.attr.deps:
         if ShadedJars in d:
