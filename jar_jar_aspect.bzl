@@ -69,7 +69,7 @@ def _jar_jar_aspect_impl(target, ctx):
 
     if ConfigJavaInfo in target:
         java_info_runtime_deps.append(target[ConfigJavaInfo].config_java_info)
-        #current_jars.extend([e.class_jar for e in target[ConfigJavaInfo].config_java_info.java_outputs])
+        current_jars.extend([e.class_jar for e in target[ConfigJavaInfo].config_java_info.java_outputs])
     toolchain_cfg = ctx.toolchains["//toolchains:toolchain_type"]
     rules = toolchain_cfg.rules.files.to_list()[0]
     duplicate_to_warn = toolchain_cfg.duplicate_class_to_warn
