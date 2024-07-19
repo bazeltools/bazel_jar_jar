@@ -6,9 +6,11 @@ ShadedJars = provider(fields = [
     "transitive_shaded",
 ])
 
-ExtraDependencyProviders = provider(fields = [
-    "extra_java_deps"
-])
+ExtraDependencyInfo = provider(
+    fields = {
+        "extra_java_deps": "Depset[JavaInfo] with extra java dependencies to include in the list of jars to be shaded"
+    }
+)
 
 def merge_shaded_jars_info(shaded_jars):
     return ShadedJars(
@@ -67,10 +69,9 @@ def _jar_jar_aspect_impl(target, ctx):
     current_jars.extend([e.class_jar for e in target[JavaInfo].java_outputs])
     java_info_runtime_deps = []
 
-    if ExtraDependencyProviders in target:
-        for config in target[ExtraDependencyProviders].extra_java_deps:
-            java_info_runtime_deps.append(config.extra_java_deps)
-            current_jars.extend([e.class_jar for e in config.extra_java_deps.java_outputs])
+    if ExtraDependencyInfo in target:
+        for java_dep in target[ExtraDependencyInfo].extra_java_deps.to_list():
+            current_jars.extend([e.class_jar for e in java_dep.java_outputs])
     toolchain_cfg = ctx.toolchains["//toolchains:toolchain_type"]
     rules = toolchain_cfg.rules.files.to_list()[0]
     duplicate_to_warn = toolchain_cfg.duplicate_class_to_warn
