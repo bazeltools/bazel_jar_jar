@@ -24,6 +24,10 @@ jar_jar(
     name = "shaded_args",
     input_jar = "@com_twitter_scalding_args",
     rules = "shade_rule",
+    jvm_flags = [
+        "-Xmx2g", 
+        "-Xloggc:/tmp/gc.log",
+    ]
 )
 
 java_import(

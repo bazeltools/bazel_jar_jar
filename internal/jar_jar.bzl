@@ -14,6 +14,8 @@ def _jar_jar_impl(ctx):
         )
 
     args = ctx.actions.args()
+    if ctx.attr.jvm_flags:
+        args.add("--jvm_flags={}".format(" ".join(ctx.attr.jvm_flags)))
     args.add("process")
     args.add(rule_file)
     args.add(ctx.file.input_jar)
@@ -50,6 +52,7 @@ jar_jar = rule(
         "input_jar": attr.label(allow_single_file = True),
         "rules": attr.label(allow_single_file = True),
         "inline_rules" : attr.string_list(),
+        "jvm_flags": attr.string_list(),
         "_jarjar_runner": attr.label(executable = True, cfg = "exec", default = "//src/main/java/com/github/johnynek/jarjar:app"),
         "_java_toolchain": attr.label(
             default = "@bazel_tools//tools/jdk:current_java_toolchain",

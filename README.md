@@ -48,7 +48,8 @@ Put that file in the same directory as the Bazel `BUILD` file that will specify 
 jar_jar(
     name = "shaded_args",
     input_jar = "@com_twitter_scalding_args//jar",
-    rules = "<FILENAME>"
+    rules = "<FILENAME>",
+    jvm_flags = ["-Xmx1g"],
 )
 ```
 
@@ -61,7 +62,8 @@ Alternately, if you don't want to put the rules in a file, you can put the shadi
 jar_jar(
     name = "shaded_args",
     input_jar = "@com_twitter_scalding_args//jar",
-    inline_rules = ["rule com.twitter.scalding.** foo.@1"]
+    inline_rules = ["rule com.twitter.scalding.** foo.@1"],
+    jvm_flags = ["-Xmx1g"],
 ```
 `inline_rules` and `rules` referring to a file are exclusive options; you can only have one or the other in your rule.  You must have one of them.
 
