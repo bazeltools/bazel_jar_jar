@@ -15,7 +15,7 @@ def _jar_jar_impl(ctx):
 
     args = ctx.actions.args()
     if ctx.attr.jvm_flags:
-        args.add("--jvm_flags={}".format(" ".join(ctx.attr.jvm_flags)))
+        args.add_joined(ctx.attr.jvm_flags, join_with=" ", format_joined="--jvm_flags=%s")
     args.add("process")
     args.add(rule_file)
     args.add(ctx.file.input_jar)
