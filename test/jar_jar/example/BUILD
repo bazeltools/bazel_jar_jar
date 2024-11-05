@@ -26,7 +26,7 @@ jar_jar(
     rules = "shade_rule",
     jvm_flags = [
         "-Xmx2g", 
-        "-Xloggc:/tmp/gc.log",
+        "-Xms256m",
     ]
 )
 
