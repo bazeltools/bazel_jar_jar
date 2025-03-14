@@ -34,7 +34,7 @@ jar_jar_repositories()
 
 ## Usage for a single jar
 
-> _Note_: Example code exists in [`test/example`](/test/example)
+> _Note_: Example code exists in [`test/jar_jar/example`](/test/jar_jar/example)
 
 Specify a rule in a file that will remap one package path into another. For example:
 
