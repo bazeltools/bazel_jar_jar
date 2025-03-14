@@ -13,6 +13,6 @@ on:
 
 jobs:
   release:
-    uses: bazel-contrib/.github/.github/workflows/release_ruleset.yaml@v5
+    uses: bazel-contrib/.github/.github/workflows/release_ruleset.yaml@v7
     with:
       release_files: bazel_jar_jar-*.tar.gz
