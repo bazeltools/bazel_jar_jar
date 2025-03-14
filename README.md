@@ -1,6 +1,6 @@
 # bazel_jar_jar
 
-JarJar rules for [Bazel](https://bazel.build/) (rename packages and classes in existing jars)
+JarJar rules for [Bazel](https://bazel.build/) (rename packages and classes in existing jars).
 
 This rule uses [Jar Jar Abrams](https://github.com/eed3si9n/jarjar-abrams), whose repo also maintains a forked/vendored Jar Jar Links.
 The main use case is to use more than one version of a jar at a time with different versions mapped to a different package. It can also be used to do [*dependency shading*](https://softwareengineering.stackexchange.com/questions/297276/what-is-a-shaded-java-dependency).
@@ -8,7 +8,9 @@ The main use case is to use more than one version of a jar at a time with differ
 ## How to add to Bazel via `MODULE.bazel`
 
 ```starlark
-bazel_dep(name = "bazel_jar_jar", version = "0.1.0") # Latest version as of 2023/10/31
+# Update the version "0.0.0" to the latest release per
+# https://registry.bazel.build/modules/bazel_jar_jar
+bazel_dep(name = "bazel_jar_jar", version = "0.0.0")
 ```
 
 ## How to add to Bazel via `WORKSPACE`
