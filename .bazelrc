@@ -1,1 +1,4 @@
 # Required by the release workflow
+
+# Disable deprecated starlark host transitions
+common --incompatible_disable_starlark_host_transitions
