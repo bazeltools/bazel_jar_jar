@@ -169,7 +169,7 @@ jar_jar_aspect = aspect(
         ),
         "_zipper": attr.label(
             executable = True,
-            cfg = "host",
+            cfg = "exec",
             default = Label("@bazel_tools//tools/zip:zipper"),
             allow_files = True,
         )
