@@ -2,3 +2,8 @@
 
 # Disable deprecated starlark host transitions
 common --incompatible_disable_starlark_host_transitions
+# Disable autoloading of external repositories
+# https://bazel.build/about/roadmap#migration_of_android_c_java_python_and_proto_rules
+common --incompatible_autoload_externally=java_import
+# https://github.com/bazelbuild/bazel/pull/26119
+common --repositories_without_autoloads=bazel_features_version,bazel_features_globals
