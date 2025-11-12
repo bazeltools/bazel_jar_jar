@@ -1,4 +1,5 @@
 load("@bazel_tools//tools/jdk:toolchain_utils.bzl", "find_java_toolchain")
+load("@rules_java//java:defs.bzl", "JavaInfo")
 load("@rules_java//java/common:java_common.bzl", "java_common")
 
 def _jar_jar_impl(ctx):
