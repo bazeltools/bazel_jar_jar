@@ -1,3 +1,5 @@
+load("@rules_java//java:defs.bzl", "JavaInfo")
+
 # This is the provider we pass up along to the outer thin_jar_jar rule.
 ShadedJars = provider(fields = [
     "java_info",
