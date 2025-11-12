@@ -1,3 +1,4 @@
+load("@rules_java//java:defs.bzl", "JavaInfo")
 load("//:jar_jar_aspect.bzl", "ShadedJars", "jar_jar_aspect", "merge_shaded_jars_info")
 
 def _thin_jar_jar_impl(ctx):
