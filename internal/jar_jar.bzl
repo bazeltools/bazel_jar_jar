@@ -1,5 +1,6 @@
 load("@bazel_tools//tools/jdk:toolchain_utils.bzl", "find_java_toolchain")
 load("@rules_java//java/common:java_common.bzl", "java_common")
+load("@rules_java//java/common:java_info.bzl", "JavaInfo")
 
 def _jar_jar_impl(ctx):
     rule_file = ctx.file.rules
@@ -11,12 +12,12 @@ def _jar_jar_impl(ctx):
         rule_file = ctx.actions.declare_file("jar_jar-rules-" + ctx.label.name + ".tmp")
         ctx.actions.write(
             output = rule_file,
-            content = "\n".join(ctx.attr.inline_rules)
+            content = "\n".join(ctx.attr.inline_rules),
         )
 
     args = ctx.actions.args()
     if ctx.attr.jvm_flags:
-        args.add_joined(ctx.attr.jvm_flags, join_with=" ", format_joined="--jvm_flags=%s")
+        args.add_joined(ctx.attr.jvm_flags, join_with = " ", format_joined = "--jvm_flags=%s")
     args.add("process")
     args.add(rule_file)
     args.add(ctx.file.input_jar)
@@ -52,7 +53,7 @@ jar_jar = rule(
         "output_jar": attr.output(mandatory = True),
         "input_jar": attr.label(allow_single_file = True),
         "rules": attr.label(allow_single_file = True),
-        "inline_rules" : attr.string_list(),
+        "inline_rules": attr.string_list(),
         "jvm_flags": attr.string_list(),
         "_jarjar_runner": attr.label(executable = True, cfg = "exec", default = "//src/main/java/com/github/johnynek/jarjar:app"),
         "_java_toolchain": attr.label(

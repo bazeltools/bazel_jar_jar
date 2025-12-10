@@ -2,6 +2,7 @@ load(
     "@com_github_johnynek_bazel_jar_jar//:thin_jar_jar.bzl",
     "thin_jar_jar",
 )
+load("@rules_java//java:java_library.bzl", "java_library")
 
 java_library(
     name = "using_unshaded",

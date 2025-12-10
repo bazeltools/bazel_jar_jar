@@ -1,3 +1,6 @@
+load("@rules_java//java/common:java_common.bzl", "java_common")
+load("@rules_java//java/common:java_info.bzl", "JavaInfo")
+
 # This is the provider we pass up along to the outer thin_jar_jar rule.
 ShadedJars = provider(fields = [
     "java_info",
@@ -8,8 +11,8 @@ ShadedJars = provider(fields = [
 
 ExtraDependencyInfo = provider(
     fields = {
-        "extra_java_deps": "Depset[JavaInfo] with extra java dependencies to include in the list of jars to be shaded"
-    }
+        "extra_java_deps": "Depset[JavaInfo] with extra java dependencies to include in the list of jars to be shaded",
+    },
 )
 
 def merge_shaded_jars_info(shaded_jars):
@@ -83,7 +86,7 @@ def _jar_jar_aspect_impl(target, ctx):
     if len(current_jars) == 0:
         current_jars = [_build_nosrc_jar(ctx)]
 
-    transitive_shaded=[]
+    transitive_shaded = []
     if hasattr(ctx.rule.attr, "runtime_deps"):
         for d in ctx.rule.attr.runtime_deps:
             if ShadedJars in d:
@@ -101,7 +104,6 @@ def _jar_jar_aspect_impl(target, ctx):
                 transitive_shaded.append(shaded_jars.transitive_shaded)
                 java_info_exports.append(shaded_jars.java_info)
 
-    
     java_info_deps = []
     for d in ctx.rule.attr.deps:
         if ShadedJars in d:
@@ -127,7 +129,7 @@ def _jar_jar_aspect_impl(target, ctx):
         )
         flags = []
         if duplicate_to_warn:
-            flags.append("-DduplicateClassToWarn={duplicate_to_warn}".format(duplicate_to_warn=duplicate_to_warn))
+            flags.append("-DduplicateClassToWarn={duplicate_to_warn}".format(duplicate_to_warn = duplicate_to_warn))
 
         args = ctx.actions.args()
         for flag in flags:
@@ -149,7 +151,7 @@ def _jar_jar_aspect_impl(target, ctx):
             java_info = java_common.make_non_strict(java_common.merge(java_outputs)),
             output_files = depset(output_files),
             tags = ctx.rule.attr.tags or [],
-            transitive_shaded = depset(transitive=transitive_shaded)
+            transitive_shaded = depset(transitive = transitive_shaded),
         ),
     ]
 
@@ -159,9 +161,7 @@ jar_jar_aspect = aspect(
     required_aspect_providers = [
         [JavaInfo],
         [ShadedJars],
-        # Allows this to pass through java proto libraries
-        ['proto_java'],
-        []
+        [],
     ],
     attrs = {
         "_java_toolchain": attr.label(
@@ -172,9 +172,8 @@ jar_jar_aspect = aspect(
             cfg = "exec",
             default = Label("@bazel_tools//tools/zip:zipper"),
             allow_files = True,
-        )
+        ),
     },
-
     toolchains = [
         "//toolchains:toolchain_type",
     ],
