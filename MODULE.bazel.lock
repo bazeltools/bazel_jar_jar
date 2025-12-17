@@ -142,40 +142,20 @@
   },
   "selectedYankedVersions": {},
   "moduleExtensions": {
-    "//:deps.bzl%deps_ext": {
-      "general": {
-        "bzlTransitiveDigest": "dxUn70iQZRfAAD6/waPB2Qq7fl02kkliAhB9TpXleuA=",
-        "usagesDigest": "ea3l1BaVdW5RAC8Q4PFf3HhY6o3WoISLggu0dOBCBEo=",
-        "recordedFileInputs": {},
-        "recordedDirentsInputs": {},
-        "envVariables": {},
-        "generatedRepoSpecs": {
-          "com_twitter_scalding_args": {
-            "repoRuleId": "@@//:deps.bzl%_scalding_args_test_repo",
-            "attributes": {}
-          },
-          "org_twitter4j_twitter4j_core": {
-            "repoRuleId": "@@//:deps.bzl%_twitter4j_repo",
-            "attributes": {}
-          }
-        },
-        "recordedRepoMappingEntries": []
-      }
-    },
-    "@@bazel_jar_jar+//internal:non_module_deps.bzl%non_module_deps": {
+    "//internal:non_module_deps.bzl%non_module_deps": {
       "general": {
         "bzlTransitiveDigest": "mAI0KMCtRQZO/i1pWRNMZBk81iGg+OHQMW3NhmqWTgs=",
-        "usagesDigest": "wSZSLja4zFyKoehJAmaDDQ0fjhHNXdhr7ZMkKaE6gJ4=",
+        "usagesDigest": "Dp3ii08gG61THDtXQIKBJG6LWuN++ITF8AZOkn48bCs=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
         "generatedRepoSpecs": {
           "jvm__jarjar_abrams_assembly": {
-            "repoRuleId": "@@bazel_jar_jar+//internal:non_module_deps.bzl%_jarjar_abrams_repo",
+            "repoRuleId": "@@//internal:non_module_deps.bzl%_jarjar_abrams_repo",
             "attributes": {}
           },
           "jvm__com_twitter__scalding_args": {
-            "repoRuleId": "@@bazel_jar_jar+//internal:non_module_deps.bzl%_scalding_args_repo",
+            "repoRuleId": "@@//internal:non_module_deps.bzl%_scalding_args_repo",
             "attributes": {}
           }
         },
